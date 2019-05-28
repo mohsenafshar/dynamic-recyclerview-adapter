@@ -61,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "onItemClicked: " + model);
                     }
                 })
+                .setLongPressListener(new MyAdapter.LongPressListener<Employee>() {
+                    @Override
+                    public boolean onItemLongPressed(View view, Employee model) {
+                        Log.d(TAG, "onItemLongPressed: " + model);
+                        return true;
+                    }
+                })
                 .build();
     }
 
