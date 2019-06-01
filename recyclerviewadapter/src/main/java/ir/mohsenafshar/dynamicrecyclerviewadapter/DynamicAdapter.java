@@ -12,9 +12,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter<Model, VH extends BaseViewHolder<Model>> extends RecyclerView.Adapter<BaseViewHolder<Model>> {
+public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends RecyclerView.Adapter<BaseViewHolder<Model>> {
 
-    private static final String TAG = MyAdapter.class.getSimpleName();
+    private static final String TAG = DynamicAdapter.class.getSimpleName();
 
     public static final int[] DEFAULT_PATTERN = new int[]{1, 0};
 
@@ -38,7 +38,7 @@ public class MyAdapter<Model, VH extends BaseViewHolder<Model>> extends Recycler
     public static final int TYPE_SINGLE = 0;
     public static final int TYPE_MULTI = 1;
 
-    private MyAdapter() {
+    private DynamicAdapter() {
     }
 
     @NonNull
@@ -158,8 +158,8 @@ public class MyAdapter<Model, VH extends BaseViewHolder<Model>> extends Recycler
             return this;
         }
 
-        public MyAdapter build() {
-            MyAdapter adapter = new MyAdapter<>();
+        public DynamicAdapter build() {
+            DynamicAdapter adapter = new DynamicAdapter<>();
             adapter.type = TYPE_SINGLE;
             adapter.modelList = list;
             adapter.viewHolderClass = viewHolderClass;
@@ -226,11 +226,11 @@ public class MyAdapter<Model, VH extends BaseViewHolder<Model>> extends Recycler
             return this;
         }
 
-        public MyAdapter build() {
+        public DynamicAdapter build() {
             Validator.isListSizeValid(viewHolderClasses, layoutIds);
             Validator.isPatternValid(pattern, viewHolderClasses.size());
 
-            MyAdapter adapter = new MyAdapter<>();
+            DynamicAdapter adapter = new DynamicAdapter<>();
             adapter.type = TYPE_MULTI;
             adapter.viewHolderClasses = viewHolderClasses;
             adapter.layoutIds = layoutIds;

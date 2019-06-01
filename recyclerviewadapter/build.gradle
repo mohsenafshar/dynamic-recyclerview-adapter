@@ -3,24 +3,15 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 28
 
-
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -31,4 +22,38 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+}
+
+ext {
+    bintrayRepo = "DynamicRecyclerViewAdapter"        //repository name in bintray dashbord
+    bintrayName = "ir.mohsenafshar.recyclerviewadapter"        // package name of bintray repository
+
+    libraryName = "recyclerviewadapter"     //module name in android studio
+
+    //Artifact Information ir.mohsenafshar.androidnavigator:navigationcompiler:1.0.0
+    publishedGroupId = 'ir.mohsenafshar.recyclerviewadapter'       //id
+    artifact = "dynamic-adapter"        //artifact
+    libraryVersion = "1.0.0"
+
+
+    libraryDescription = "dynamic adapter for recyclerview"
+    siteUrl = "https://github.com/mohsenafshar/dynamic-recyclerview-adapter"
+    gitUrl = "https://github.com/mohsenafshar/dynamic-recyclerview-adapter.git"
+    developerId = "mohsenafshar"
+    developerName = "mohsen afshar"
+    developerEmail = "mohsenafshar_ph@yahoo.com"
+    licenseName = "The Apache Software License, Version 2.0"
+    licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+    allLicenses = ["Apache-2.0"]
+
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+if (project.rootProject.file('local.properties').exists()) {
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 }

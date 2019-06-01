@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-public class EmployeeViewHolder extends BaseViewHolder<Employee> implements A {
+public class EmployeeViewHolder extends BaseViewHolder<Employee> {
 
     private static final String TAG = EmployeeViewHolder.class.getSimpleName();
 
