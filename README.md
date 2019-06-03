@@ -5,7 +5,7 @@ A Dynamic RecyclerViewAdapter with simple usage And compile-time type checking
 
 ### Installing
 ```
-implementation 'ir.mohsenafshar.recyclerviewadapter:dynamic-adapter:1.0.0' // not available yet
+implementation 'ir.mohsenafshar.recyclerviewadapter:dynamic-adapter:1.0.0'
 ```
 
 ### Usage
