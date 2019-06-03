@@ -4,7 +4,9 @@ A Dynamic RecyclerViewAdapter with simple usage And compile-time type checking
 
 
 ### Installing
-
+```
+implementation 'ir.mohsenafshar.recyclerviewadapter:dynamic-adapter:1.0.0'
+```
 
 ### Usage
 
@@ -23,14 +25,14 @@ A Dynamic RecyclerViewAdapter with simple usage And compile-time type checking
   
   
   ```
-new MyAdapter.Builder<>(dataList, DataViewHolder.class, R.layout.item)
-                .setClickListener(new MyAdapter.ClickListener<data>() {
+new DynamicAdapter.Builder<>(dataList, DataViewHolder.class, R.layout.item)
+                .setClickListener(new DynamicAdapter.ClickListener<data>() {
                     @Override
                     public void onItemClicked(View view, Data model) {
                         Log.d(TAG, "onItemClicked: " + model);
                     }
                 })
-                .setLongPressListener(new MyAdapter.LongPressListener<Employee>() {
+                .setLongPressListener(new DynamicAdapter.LongPressListener<Employee>() {
                     @Override
                     public boolean onItemLongPressed(View view, Employee model) {
                         Log.d(TAG, "onItemLongPressed: " + model);

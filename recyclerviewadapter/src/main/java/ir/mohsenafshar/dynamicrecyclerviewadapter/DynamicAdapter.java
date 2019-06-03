@@ -22,10 +22,6 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
     private int[] layoutIds;
     private int[] pattern;
 
-    /*
-     * TODO: Find a Solution for changing arrayList To array
-     * */
-
     private Class<VH> viewHolderClass;
     private List<Model> modelList;
     private int layoutId;
