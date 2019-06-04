@@ -2,7 +2,6 @@ package ir.mohsenafshar.testadapter;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -55,18 +54,10 @@ public class MainActivity extends AppCompatActivity {
          *
          * */
         return new DynamicAdapter.Builder<>(employeeList, EmployeeViewHolder.class, R.layout.item_employee)
-                .setClickListener(new DynamicAdapter.ClickListener<Employee>() {
-                    @Override
-                    public void onItemClicked(View view, Employee model) {
-                        Log.d(TAG, "onItemClicked: " + model);
-                    }
-                })
-                .setLongPressListener(new DynamicAdapter.LongPressListener<Employee>() {
-                    @Override
-                    public boolean onItemLongPressed(View view, Employee model) {
-                        Log.d(TAG, "onItemLongPressed: " + model);
-                        return true;
-                    }
+                .setClickListener((view, model) -> Log.d(TAG, "onItemClicked: " + model))
+                .setLongPressListener((view, model) -> {
+                    Log.d(TAG, "onItemLongPressed: " + model);
+                    return true;
                 })
                 .build();
     }

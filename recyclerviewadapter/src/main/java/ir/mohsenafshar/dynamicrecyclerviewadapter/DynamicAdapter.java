@@ -18,7 +18,7 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
 
     public static final int[] DEFAULT_PATTERN = new int[]{1, 0};
 
-    private ArrayList<Class<? extends VH>> viewHolderClasses;
+    private ArrayList<Class<VH>> viewHolderClasses;
     private int[] layoutIds;
     private int[] pattern;
 
@@ -127,19 +127,19 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
 
     public static final class Builder<VH extends BaseViewHolder<Model>, Model> {
 
-        private Class<? extends VH> viewHolderClass;
+        private Class<VH> viewHolderClass;
         private int layoutId;
         private List<Model> list;
         private ClickListener<Model> clickListener;
         private LongPressListener<Model> longPressListener;
 
-        public Builder(List<Model> modelList, Class<? extends VH> viewHolderClass, @LayoutRes int layoutId) {
+        public Builder(List<Model> modelList, Class<VH> viewHolderClass, @LayoutRes int layoutId) {
             this.list = modelList;
             this.layoutId = layoutId;
             this.viewHolderClass = viewHolderClass;
         }
 
-        public Builder<VH, Model> setViewHolderClass(Class<? extends VH> viewHolderClass) {
+        public Builder<VH, Model> setViewHolderClass(Class<VH> viewHolderClass) {
             this.viewHolderClass = viewHolderClass;
             return this;
         }
@@ -175,25 +175,23 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
         private int[] pattern;
         private ClickListener<Model> clickListener;
         private LongPressListener<Model> longPressListener;
+        private RecyclerViewItemContainer container;
 
-        MultiBuilder() {
-        }
-
-        MultiBuilder(List<Model> modelList, ArrayList<? extends Class<? extends VH>> viewHolderClasses, @LayoutRes int... layoutId) {
+        public MultiBuilder(List<Model> modelList, ArrayList<? extends Class<VH>> viewHolderClasses, @LayoutRes int... layoutId) {
             this.list = modelList;
             this.layoutIds = layoutId;
             this.viewHolderClasses = viewHolderClasses;
         }
 
 
-        public MultiBuilder<VH, Model> setViewHolderClass(ArrayList<? extends Class<? extends VH>> viewHolderClasses) {
+        public MultiBuilder<VH, Model> setViewHolderClass(ArrayList<? extends Class<VH>> viewHolderClasses) {
             this.viewHolderClasses = viewHolderClasses;
             return this;
         }
 
 
         public MultiBuilder<VH, Model> setContainer(RecyclerViewItemContainer container) {
-            this.viewHolderClasses = viewHolderClasses;
+            this.container = container;
             return this;
         }
 

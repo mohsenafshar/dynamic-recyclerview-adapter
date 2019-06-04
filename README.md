@@ -25,19 +25,11 @@ implementation 'ir.mohsenafshar.recyclerviewadapter:dynamic-adapter:1.0.0'
   
   
   ```
-new DynamicAdapter.Builder<>(dataList, DataViewHolder.class, R.layout.item)
-                .setClickListener(new DynamicAdapter.ClickListener<data>() {
-                    @Override
-                    public void onItemClicked(View view, Data model) {
-                        Log.d(TAG, "onItemClicked: " + model);
-                    }
-                })
-                .setLongPressListener(new DynamicAdapter.LongPressListener<Employee>() {
-                    @Override
-                    public boolean onItemLongPressed(View view, Employee model) {
-                        Log.d(TAG, "onItemLongPressed: " + model);
-                        return true;
-                    }
+return new DynamicAdapter.Builder<>(employeeList, EmployeeViewHolder.class, R.layout.item_employee)
+                .setClickListener((view, model) -> Log.d(TAG, "onItemClicked: " + model))
+                .setLongPressListener((view, model) -> {
+                    Log.d(TAG, "onItemLongPressed: " + model);
+                    return true;
                 })
                 .build();
   
