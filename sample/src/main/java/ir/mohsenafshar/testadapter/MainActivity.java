@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.mohsenafshar.dynamicrecyclerviewadapter.DynamicAdapter;
@@ -60,6 +61,22 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 })
                 .build();
+    }
+
+
+    private DynamicAdapter createMultiViewHolderAdapter() {
+
+        //Create A List Of Data
+        List<Employee> employeeList = EmployeeListProvider.getList(this);
+
+        ArrayList<Class<EmployeeViewHolder>> classes = new ArrayList<>();
+        classes.add(EmployeeViewHolder.class);
+
+        return new DynamicAdapter.MultiBuilder<>(
+                employeeList,
+                classes,
+                R.layout.item_employee, R.layout.item_employee_gray, R.layout.item_employee_red
+        ).build();
     }
 
 }

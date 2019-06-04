@@ -167,9 +167,9 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
 
     }
 
-    private static final class MultiBuilder<VH extends BaseViewHolder<Model>, Model> {
+    public static final class MultiBuilder<VH extends BaseViewHolder<Model>, Model> {
 
-        private ArrayList<? extends Class<? extends VH>> viewHolderClasses;
+        private ArrayList<Class<VH>> viewHolderClasses;
         private int[] layoutIds;
         private List<Model> list;
         private int[] pattern;
@@ -177,14 +177,14 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
         private LongPressListener<Model> longPressListener;
         private RecyclerViewItemContainer container;
 
-        public MultiBuilder(List<Model> modelList, ArrayList<? extends Class<VH>> viewHolderClasses, @LayoutRes int... layoutId) {
+        public MultiBuilder(List<Model> modelList, ArrayList<Class<VH>> viewHolderClasses, @LayoutRes int... layoutId) {
             this.list = modelList;
             this.layoutIds = layoutId;
             this.viewHolderClasses = viewHolderClasses;
         }
 
 
-        public MultiBuilder<VH, Model> setViewHolderClass(ArrayList<? extends Class<VH>> viewHolderClasses) {
+        public MultiBuilder<VH, Model> setViewHolderClass(ArrayList<Class<VH>> viewHolderClasses) {
             this.viewHolderClasses = viewHolderClasses;
             return this;
         }
