@@ -1,4 +1,4 @@
-package ir.mohsenafshar.dynamicrecyclerviewadapter;
+package ir.mohsenafshar.testadapter;
 
 import android.content.Context;
 

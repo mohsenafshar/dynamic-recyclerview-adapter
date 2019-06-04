@@ -1,4 +1,4 @@
-package ir.mohsenafshar.dynamicrecyclerviewadapter;
+package ir.mohsenafshar.testadapter;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import ir.mohsenafshar.dynamicrecyclerviewadapter.DynamicAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

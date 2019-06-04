@@ -1,10 +1,13 @@
-package ir.mohsenafshar.dynamicrecyclerviewadapter;
+package ir.mohsenafshar.testadapter;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import ir.mohsenafshar.dynamicrecyclerviewadapter.BaseViewHolder;
+
 
 public class EmployeeViewHolder extends BaseViewHolder<Employee> {
 

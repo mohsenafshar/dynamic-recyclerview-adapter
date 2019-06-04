@@ -133,7 +133,7 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
         private ClickListener<Model> clickListener;
         private LongPressListener<Model> longPressListener;
 
-        Builder(List<Model> modelList, Class<? extends VH> viewHolderClass, @LayoutRes int layoutId) {
+        public Builder(List<Model> modelList, Class<? extends VH> viewHolderClass, @LayoutRes int layoutId) {
             this.list = modelList;
             this.layoutId = layoutId;
             this.viewHolderClass = viewHolderClass;
@@ -258,19 +258,19 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
     }
 
 
-    interface BindViewHolderListener<T> {
+    public interface BindViewHolderListener<T> {
         void onBindViewHolder(T model);
     }
 
-    interface ClickListener<T> {
+    public interface ClickListener<T> {
         void onItemClicked(View view, T model);
     }
 
-    interface LongPressListener<T> {
+    public interface LongPressListener<T> {
         boolean onItemLongPressed(View view, T model);
     }
 
-    interface Listeners extends BindViewHolderListener, ClickListener, LongPressListener {
+    public interface Listeners extends BindViewHolderListener, ClickListener, LongPressListener {
     }
 
 
