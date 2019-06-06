@@ -25,14 +25,21 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
     private Class<VH> viewHolderClass;
     private List<Model> modelList;
     private int layoutId;
+    private AdapterItemContainer<VH, Model> headerContainer;    /*TODO: SET CLICK LISTENER FOR HEADER AND FOOTER*/
+    private AdapterItemContainer<VH, Model> footerContainer;
 
     private ClickListener<Model> clickListener;
     private LongPressListener<Model> longPressListener;
     private BindViewHolderListener<Model> bindViewHolderListener;
 
+    private boolean hasHeader;
+    private boolean hasFooter;
+
     private int type = -1;
-    public static final int TYPE_SINGLE = 0;
-    public static final int TYPE_MULTI = 1;
+    private static final int TYPE_SINGLE = 0;
+    private static final int TYPE_MULTI = 1;
+    private static final int TYPE_HEADER = 2;
+    private static final int TYPE_FOOTER = 3;
 
     private DynamicAdapter() {
     }
@@ -41,14 +48,28 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
     @Override
     public BaseViewHolder<Model> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (type == TYPE_SINGLE) {
-            return getSingleViewHolder(parent);
-        } else {
-            return getMultiViewHolderFor(parent, viewType);
+        switch (viewType) {
+
+            case TYPE_SINGLE:
+                return getSingleViewHolder(parent, layoutId, viewHolderClass);
+
+            case TYPE_HEADER:
+                return getSingleViewHolder(parent, headerContainer.getLayoutRes(), headerContainer.getViewHolderClass());
+
+            case TYPE_FOOTER:
+                return getSingleViewHolder(parent, footerContainer.getLayoutRes(), footerContainer.getViewHolderClass());
+
+            case TYPE_MULTI:
+                return getMultiViewHolderFor(parent, viewType);
+
+            default:
+                return getSingleViewHolder(parent, layoutId, viewHolderClass);
+
         }
+
     }
 
-    private BaseViewHolder<Model> getSingleViewHolder(@NonNull ViewGroup parent) {
+    private BaseViewHolder<Model> getSingleViewHolder(@NonNull ViewGroup parent, int layoutId, Class<VH> viewHolderClass) {
         View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
 
         VH vh = null;
@@ -98,7 +119,22 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
 
     @Override
     public void onBindViewHolder(@NonNull final BaseViewHolder<Model> holder, final int position) {
-        holder.onBindViewHolder(modelList.get(position));
+        int pos = position;
+        if (hasHeader) {
+            if (position == 0) {
+                holder.onBindViewHolder(headerContainer.getModel());
+                return;
+            }
+
+            pos -= 1;
+        }
+
+        if (hasFooter && position == getItemCount() - 1) {
+            holder.onBindViewHolder(footerContainer.getModel());
+            return;
+        }
+
+        holder.onBindViewHolder(modelList.get(pos));
 
         if (clickListener != null) {
             holder.setClickListener(clickListener);
@@ -111,17 +147,35 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
 
     @Override
     public int getItemCount() {
-        return modelList.size();
+        int size = modelList.size();
+
+        if (hasHeader) {
+            size++;
+        }
+
+        if (hasFooter) {
+            size++;
+        }
+
+        return size;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (type == TYPE_SINGLE)
-            return super.getItemViewType(position);
+        if (position != 0 && position != getItemCount() - 1) {
+            return TYPE_SINGLE;
+        } else if (position == 0) {
+            return hasHeader ? TYPE_HEADER : TYPE_SINGLE;
+        } else {
+            return hasFooter ? TYPE_FOOTER : TYPE_SINGLE;
+        }
+
+        /*if (type == TYPE_SINGLE)
+            return type;
         else {
             int patterSize = pattern.length;
             return pattern[position % patterSize];
-        }
+        }*/
     }
 
 
@@ -132,6 +186,8 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
         private List<Model> list;
         private ClickListener<Model> clickListener;
         private LongPressListener<Model> longPressListener;
+        private AdapterItemContainer headerContainer;
+        private AdapterItemContainer footerContainer;
 
         public Builder(List<Model> modelList, Class<VH> viewHolderClass, @LayoutRes int layoutId) {
             this.list = modelList;
@@ -139,8 +195,13 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
             this.viewHolderClass = viewHolderClass;
         }
 
-        public Builder<VH, Model> setViewHolderClass(Class<VH> viewHolderClass) {
-            this.viewHolderClass = viewHolderClass;
+        public <vh extends BaseViewHolder<T>, T> Builder<VH, Model> setHeader(T model, Class<vh> viewHolderClass, @LayoutRes int layoutId) {
+            headerContainer = new AdapterItemContainer<>(model, viewHolderClass, layoutId);
+            return this;
+        }
+
+        public <vh extends BaseViewHolder<T>, T> Builder<VH, Model> setFooter(T model, Class<vh> viewHolderClass, @LayoutRes int layoutId) {
+            footerContainer = new AdapterItemContainer<>(model, viewHolderClass, layoutId);
             return this;
         }
 
@@ -160,6 +221,12 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
             adapter.modelList = list;
             adapter.viewHolderClass = viewHolderClass;
             adapter.layoutId = layoutId;
+            adapter.headerContainer = headerContainer;
+            adapter.footerContainer = footerContainer;
+
+            adapter.hasHeader = headerContainer != null;
+            adapter.hasFooter = footerContainer != null;
+
             adapter.clickListener = clickListener;
             adapter.longPressListener = longPressListener;
             return adapter;
@@ -175,7 +242,7 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
         private int[] pattern;
         private ClickListener<Model> clickListener;
         private LongPressListener<Model> longPressListener;
-        private RecyclerViewItemContainer container;
+        private AdapterItemContainer container;
 
         public MultiBuilder(List<Model> modelList, ArrayList<? extends Class<VH>> viewHolderClasses, @LayoutRes int... layoutId) {
             this.list = modelList;
@@ -190,7 +257,7 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
         }
 
 
-        public MultiBuilder<VH, Model> setContainer(RecyclerViewItemContainer container) {
+        public MultiBuilder<VH, Model> setContainer(AdapterItemContainer container) {
             this.container = container;
             return this;
         }
@@ -240,17 +307,20 @@ public class DynamicAdapter<Model, VH extends BaseViewHolder<Model>> extends Rec
     private static class Validator {
 
         private static void isListSizeValid(List list, int[] array) {
-            if (list.size() != array.length) throw new AssertionError("size of viewHolderClasses must match the size of layouts");
+            if (list.size() != array.length)
+                throw new AssertionError("size of viewHolderClasses must match the size of layouts");
         }
 
         private static void isPatternValid(int[] pattern, int sizeOfViewHolderClasses) {
             int max = 0;
             for (int i : pattern) {
-                if (i < 0) throw new AssertionError("items in pattern list must be whole number ( >= 0 )");
+                if (i < 0)
+                    throw new AssertionError("items in pattern list must be whole number ( >= 0 )");
                 if (i > max) max = i;
             }
 
-            if (max > sizeOfViewHolderClasses - 1) throw new AssertionError("max value in pattern must not >= size of layouts");
+            if (max > sizeOfViewHolderClasses - 1)
+                throw new AssertionError("max value in pattern must not >= size of layouts");
         }
 
     }

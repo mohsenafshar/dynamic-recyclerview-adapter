@@ -53,12 +53,18 @@ public class MainActivity extends AppCompatActivity {
          * At the end, set listeners to builder object
          *
          * */
+        Employee e = new Employee();
+        e.setEmployeeName("asd");
+        e.setEmployeeAge("20");
+        e.setEmployeeSalary("$2000");
         return new DynamicAdapter.Builder<>(employeeList, EmployeeViewHolder.class, R.layout.item_employee)
                 .setClickListener((view, model) -> Log.d(TAG, "onItemClicked: " + model))
                 .setLongPressListener((view, model) -> {
                     Log.d(TAG, "onItemLongPressed: " + model);
                     return true;
                 })
+                .setHeader(e, HeaderEmployeeViewHolder.class, R.layout.item_employee_red)
+                .setFooter(e, FooterEmployeeViewHolder.class, R.layout.item_employee_red)
                 .build();
     }
 
