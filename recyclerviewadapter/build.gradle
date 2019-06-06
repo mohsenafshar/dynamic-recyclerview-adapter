@@ -33,7 +33,7 @@ ext {
     //Artifact Information ir.mohsenafshar.androidnavigator:navigationcompiler:1.0.0
     publishedGroupId = 'ir.mohsenafshar.recyclerviewadapter'       //id
     artifact = "dynamic-adapter"        //artifact
-    libraryVersion = "1.0.0"
+    libraryVersion = "1.0.1-beta"
 
 
     libraryDescription = "dynamic adapter for recyclerview"

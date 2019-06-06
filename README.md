@@ -5,7 +5,7 @@ A Dynamic RecyclerViewAdapter with simple usage And compile-time type checking
 
 ### Installing
 ```
-implementation 'ir.mohsenafshar.recyclerviewadapter:dynamic-adapter:1.0.0'
+implementation 'ir.mohsenafshar.recyclerviewadapter:dynamic-adapter:1.0.1-beta'
 ```
 
 ### Usage
@@ -25,12 +25,14 @@ implementation 'ir.mohsenafshar.recyclerviewadapter:dynamic-adapter:1.0.0'
   
   
   ```
-return new DynamicAdapter.Builder<>(employeeList, EmployeeViewHolder.class, R.layout.item_employee)
+return new DynamicAdapter.Builder<>(userList, UserViewHolder.class, R.layout.item_user)
                 .setClickListener((view, model) -> Log.d(TAG, "onItemClicked: " + model))
                 .setLongPressListener((view, model) -> {
                     Log.d(TAG, "onItemLongPressed: " + model);
                     return true;
                 })
+                .setHeader(headerModelObject, HeaderViewHolder.class, R.layout.item_header)
+                .setFooter(footerModelObject, FooterViewHolder.class, R.layout.item_footer)
                 .build();
   
   }
